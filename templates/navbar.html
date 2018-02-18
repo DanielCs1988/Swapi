@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand navbar-dark bg-primary fixed-top justify-content-between">
+
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" href="#">Voting Statistics</a>
+    </div>
+
+    <a class="navbar-brand" href="#">Star Wars API</a>
+
+    <div class="navbar-nav">
+        {% if session.get('current_user') %}
+            <span class="navbar-text">Welcome, {{ session['current_user'] }}!</span>
+            <a class="nav-item nav-link" href="#">Logout</a>
+        {% else %}
+            <a class="nav-item nav-link" href="#" data-toggle="modal">Login</a>
+            <a class="nav-item nav-link" href="#" data-toggle="modal">Register</a>
+        {% endif %}
+    </div>
+
+</nav>
