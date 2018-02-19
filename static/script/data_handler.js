@@ -1,7 +1,63 @@
 data_handler = {
 
+    init() {
+        this._loadData(this._planetsKey, this._planetsData);
+        this._loadData(this._residentsKey, this._residentsData);
+    },
+
+    _planetsKey: 'planets',
+    _planetsData: {},
+
+    _residentsKey: 'residents',
+    _residentsData : {},
+
+    _loadData(source, target) {
+        if (sessionStorage.getItem(source)) {
+            target = JSON.parse(sessionStorage.getItem(source));
+        }
+    },
+
+    _saveData(target, source) {
+        sessionStorage.setItem(target, JSON.stringify(source));
+    },
+
     getPlanetsPage(url, callback) {
-        $.getJSON(url, callback);
+        if (this._planetsData.hasOwnProperty(url)) {
+            callback(data_handler._planetsData[url]);
+        } else {
+            $.getJSON(url, function (planets) {
+                data_handler._planetsData[url] = planets;
+                data_handler._saveData(data_handler._planetsKey, data_handler._planetsData);
+                callback(planets);
+            });
+        }
+    },
+
+    getResidents(planet, residentLinks, callback) {
+        if (this._residentsData.hasOwnProperty(planet)) {
+            callback(planet, data_handler._residentsData[planet]);
+
+        } else {
+
+            let residents = [];
+            let calls = [];
+
+            $.each(residentLinks, function (index, residentURL) {
+                let call = $.Deferred();
+                $.getJSON(residentURL, function (resident) {
+                    residents.push(resident);
+                    call.resolve();
+                });
+                calls.push(call);
+            });
+
+            $.when.apply(null, calls).then(function () {
+                data_handler._residentsData[planet] = residents;
+                data_handler._saveData(data_handler._residentsKey, data_handler._residentsData);
+                callback(planet, residents);
+            });
+
+        }
     }
 
 };
