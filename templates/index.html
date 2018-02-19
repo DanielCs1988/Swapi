@@ -1,34 +1,55 @@
 <!doctype html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/bootstrap.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/theme.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/theme.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/main.css') }}">
 
-        <script src="{{ url_for('static', filename='script/jquery-3.3.1.js') }}" defer></script>
-        <script src="{{ url_for('static', filename='script/bootstrap.bundle.js') }}" defer></script>
-        <script src="{{ url_for('static', filename='script/main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/jquery-3.3.1.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/bootstrap.bundle.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/data_handler.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/dom.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/main.js') }}" defer></script>
 
-        <title>Star Wars API</title>
-    </head>
+    <title>Star Wars API</title>
+</head>
 
-    <body>
+<body>
 
-        {% include 'navbar.html' %}
+    {% include 'navbar.html' %}
 
-        <table id="swapi-table">
+    <div class="container">
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li id="pagination-prev" class="page-item page-link">Previous</li>
+                <li id="pagination-next" class="page-item page-link">Next</li>
+            </ul>
+        </nav>
+
+        <table id="planets-table" class="table table-bordered">
             <thead>
-            <!-- headers from swpapi -->
+            <tr>
+                <th>Name</th>
+                <th>Diameter</th>
+                <th>Climate</th>
+                <th>Terrain</th>
+                <th>Surface Water Percentage</th>
+                <th>Population</th>
+                <th>Residents</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
             <!-- content -->
             </tbody>
         </table>
+    </div>
 
-    </body>
+</body>
 
 </html>
