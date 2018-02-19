@@ -12,6 +12,7 @@
     <script src="{{ url_for('static', filename='script/jquery-3.3.1.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/bootstrap.bundle.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/data_handler.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/users.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/dom.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/main.js') }}" defer></script>
 
@@ -22,6 +23,8 @@
 
     {% include 'navbar.html' %}
     {% include 'residents.html' %}
+    {% include 'login.html' %}
+    {% include 'register.html' %}
 
     <div class="container">
 

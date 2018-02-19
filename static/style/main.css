@@ -1,3 +1,7 @@
 .container {
     padding-top: 5rem;
 }
+
+#login-trigger-btn, #register-trigger-btn, #logout-btn, #user-greeting {
+    display: none;
+}

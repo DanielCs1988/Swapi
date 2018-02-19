@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, session
 from data_handler import DataBase
-import json
 import os
 
 db = DataBase()
@@ -14,12 +13,18 @@ def main():
     return render_template('index.html')
 
 
+@app.route('/login-status')
+def login_status():
+    return session.get('current_user', '')
+
+
 @app.route('/login', methods=['POST'])
 def login():
     login_valid = db.check_user(request.form['username'], request.form['password'])
     if login_valid:
         session['current_user'] = request.form['username']
-    return json.dumps(login_valid)
+        return request.form['username']
+    return ''
 
 
 @app.route('/logout')
@@ -34,7 +39,8 @@ def register():
     reg_valid = db.register_user(request.form['username'], request.form['password'])
     if reg_valid:
         session['current_user'] = request.form['username']
-    return json.dumps(reg_valid)
+        return request.form['username']
+    return ''
 
 
 if __name__ == '__main__':
