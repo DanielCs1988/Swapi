@@ -58,5 +58,10 @@ def get_current_user_votes():
     return json.jsonify(db.query_user_votes(username))
 
 
+@app.route('/list-votes')
+def list_votes():
+    return json.jsonify(db.get_vote_counts())
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -14,7 +14,7 @@ data_handler = {
     _residentsKey: 'residents',
     _residentsData : {},
 
-    currentUserVotes: null,
+    currentUserVotes: {},
 
     _loadData(source, target) {
         if (sessionStorage.getItem(source)) {
@@ -67,6 +67,10 @@ data_handler = {
             });
 
         }
+    },
+
+    getVoteStatistics(callback) {
+        $.getJSON('/list-votes', resp => callback(resp));
     }
 
 };

@@ -52,3 +52,8 @@ class DataBase:
         user_id = self.get_id_by_username(username)
         self.cursor.execute("SELECT planet_name FROM planet_votes WHERE user_id = %(us_id)s", {'us_id': user_id})
         return [vote['planet_name'] for vote in self.cursor.fetchall()]
+
+    def get_vote_counts(self):
+        self.cursor.execute("""SELECT planet_name, COUNT(*) AS count FROM planet_votes 
+                                 GROUP BY planet_name ORDER BY count DESC""")
+        return self.cursor.fetchall()

@@ -1,7 +1,7 @@
 vote = {
 
     init() {
-
+        this.addListenerToVoteStatBtn();
     },
 
     addListenerToVoteBtn(planet) {
@@ -17,6 +17,33 @@ vote = {
                     console.log(resp);
                 }
             })
+        })
+    },
+
+    addListenerToVoteStatBtn() {
+        $('#vote-stat-btn').click(function () {
+            let modal = $('#vote-statistics');
+            modal.find('h5').text('Loading...');
+            modal.find('table').hide();
+            modal.find('tbody').empty();
+            modal.modal();
+            data_handler.getVoteStatistics(vote.renderVoteStatistics);
+        })
+    },
+
+    renderVoteStatistics(stats) {
+        let modal = $('#vote-statistics');
+        modal.find('h5').text('Vote Statistics');
+        modal.find('table').show();
+
+        $.each(stats, function (index, entry) {
+            let entryHTML = `
+                <tr>
+                    <td>${entry.planet_name}</td>
+                    <td>${entry.count}</td>
+                </tr> 
+            `
+            $(entryHTML).appendTo(modal.find('tbody'));
         })
     }
 
