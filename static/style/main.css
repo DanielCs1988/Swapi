@@ -10,6 +10,17 @@ body {
     background: url('swbg.jpg') no-repeat fixed;
 }
 
-.vote-btn.btn-success {
+.vote-btn.btn-success, #pagination-page-counter {
     pointer-events: none;
+}
+
+.hidden-icon {
+    display: none;
+}
+
+#tie-interceptor {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    display: none;
 }

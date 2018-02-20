@@ -38,13 +38,14 @@ data_handler = {
     },
 
     getPlanets(url, callback) {
+        $('body').css('cursor', 'progress');
         if (data_handler._planetsData.hasOwnProperty(url)) {
-                callback(data_handler._planetsData[url]);
+                callback(data_handler._planetsData[url], url);
             } else {
                 $.getJSON(url, function (planets) {
                     data_handler._planetsData[url] = planets;
                     data_handler._saveData(data_handler._planetsKey, data_handler._planetsData);
-                    callback(planets);
+                    callback(planets, url);
                 });
             }
     },

@@ -28,6 +28,7 @@ vote = {
             modal.find('h5').text('Loading...');
             modal.find('table').hide();
             modal.find('tbody').empty();
+            $('body').css('cursor', 'progress');
             modal.modal();
             data_handler.getVoteStatistics(vote.renderVoteStatistics);
         })
@@ -37,6 +38,7 @@ vote = {
         let modal = $('#vote-statistics');
         modal.find('h5').text('Vote Statistics');
         modal.find('table').show();
+        $('body').css('cursor', 'auto');
 
         $.each(stats, function (index, entry) {
             let entryHTML = `

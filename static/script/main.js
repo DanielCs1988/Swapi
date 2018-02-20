@@ -4,5 +4,6 @@ $(document).ready(function () {
     users.init();
     dom.init();
     vote.init();
+    effects.init();
 
 });

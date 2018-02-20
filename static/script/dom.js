@@ -10,10 +10,12 @@ dom = {
     prevPlanet: null,
     nextPlanet: null,
 
-    renderPage(planets) {
+    renderPage(planets, current_url) {
+        $('body').css('cursor', 'auto');
         let table = $('#planets-table').find('tbody');
         table.empty();
         dom.changeBtnStatus(planets.next, planets.previous);
+        $('#pagination-page-counter').text(current_url.replace('https://swapi.co/api/planets/?page=', ''));
 
         $.each(planets.results, function (index, planet) {
             let residents;
@@ -69,6 +71,8 @@ dom = {
             modal.find('h5').text('Loading...');
             modal.find('table').hide();
             modal.find('tbody').empty();
+            modal.css('cursor', 'progress');
+            effects.renderLoadingIndicator();
             modal.modal();
             data_handler.getResidents(planetName, residents, dom.renderModal);
         })
@@ -76,8 +80,10 @@ dom = {
 
     renderModal(planet, residents) {
         let modal = $('#residents');
+        effects.hideLoadingIndicator();
         modal.find('h5').text('Residents of ' + planet);
         modal.find('table').show();
+        modal.css('cursor', 'auto');
 
         $.each(residents, function (index, resident) {
             let residentHTML = `

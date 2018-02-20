@@ -8,15 +8,16 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/theme.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='style/favicon.ico') }}">
 
     <script src="{{ url_for('static', filename='script/jquery-3.3.1.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/bootstrap.bundle.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='script/fontawesome.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='script/fa-solid.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/fontawesome-all.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/data_handler.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/users.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/dom.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/vote.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='script/effects.js') }}" defer></script>
     <script src="{{ url_for('static', filename='script/main.js') }}" defer></script>
 
     <title>Star Wars API</title>
@@ -35,11 +36,12 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li id="pagination-prev" class="page-item"><span class="page-link">Previous</span></li>
+                <li class="page-item"><span id="pagination-page-counter" class="page-link">1</span></li>
                 <li id="pagination-next" class="page-item"><span class="page-link">Next</span></li>
             </ul>
         </nav>
 
-        <table id="planets-table" class="table table-bordered">
+        <table id="planets-table" class="table table-bordered w-100">
             <thead>
             <tr>
                 <th>Name</th>
@@ -56,6 +58,10 @@
             </tbody>
         </table>
     </div>
+
+    <img id="tie-interceptor" src="{{ url_for('static', filename='style/tie.png') }}" alt="tie interceptor">
+
+    <audio src="" id="music" autoplay loop></audio>
 
 </body>
 
