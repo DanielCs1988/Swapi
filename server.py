@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, json
 from data_handler import DataBase
 import os
 
@@ -41,6 +41,21 @@ def register():
         session['current_user'] = request.form['username']
         return request.form['username']
     return ''
+
+
+@app.route('/vote', methods=['POST'])
+def register_vote():
+    if session.get('current_user') != request.form['username']:
+        return ''
+    if db.register_vote(request.form['username'], request.form['planetName'], request.form['planetId']):
+        return 'Vote received!'
+    return ''
+
+
+@app.route('/current-user-votes')
+def get_current_user_votes():
+    username = request.args['username']
+    return json.jsonify(db.query_user_votes(username))
 
 
 if __name__ == '__main__':

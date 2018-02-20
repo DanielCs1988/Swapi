@@ -21,11 +21,17 @@ dom = {
         $.each(planets.results, function (index, planet) {
             let residents;
             if (planet.residents.length) {
-                residents = `<button type="button" class="btn btn-primary" data-planet-name="${planet.name}">
+                residents = `<button type="button" class="btn btn-primary rsd-btn" data-planet-name="${planet.name}">
                                 ${planet.residents.length} resident(s)
                              </button>`
             } else {
                 residents = 'No known residents';
+            }
+
+            let voteBtn = '';
+            if (users.currentUser) {
+                voteBtn = `<td><button type="button" class="btn btn-success vote-btn" data-planet-name="${planet.name}" 
+                                       data-planet-id="${planet.url.slice(-2, -1)}">Vote</button></td>`;
             }
 
             let planetHTML = `
@@ -37,18 +43,24 @@ dom = {
                     <td>${planet.surface_water}</td>
                     <td>${planet.population}</td>
                     <td>${residents}</td>
+                    ${voteBtn}
                 </tr>
             `;
             $(planetHTML).appendTo(table);
             if (planet.residents.length) {
                 dom.addListenerToResidentsBtn(planet.name, planet.residents);
             }
+            if ( voteBtn && !(data_handler.currentUserVotes.includes(planet.name)) ) {
+                vote.addListenerToVoteBtn(planet.name);
+            } else {
+                $(`.vote-btn[data-planet-name="${planet.name}"]`).addClass('disabled');
+            }
         });
 
     },
 
     addListenerToResidentsBtn(planetName, residents) {
-        $(`[data-planet-name="${planetName}"]`).click(function () {
+        $(`.rsd-btn[data-planet-name="${planetName}"]`).click(function () {
             let modal = $('#residents');
             modal.find('h5').text('Loading...');
             modal.find('table').hide();

@@ -1,6 +1,9 @@
 data_handler = {
 
     init() {
+        if (users.currentUser) {
+            data_handler.getCurrentUserVotes();
+        }
         this._loadData(this._planetsKey, this._planetsData);
         this._loadData(this._residentsKey, this._residentsData);
     },
@@ -11,6 +14,8 @@ data_handler = {
     _residentsKey: 'residents',
     _residentsData : {},
 
+    currentUserVotes: null,
+
     _loadData(source, target) {
         if (sessionStorage.getItem(source)) {
             target = JSON.parse(sessionStorage.getItem(source));
@@ -19,6 +24,10 @@ data_handler = {
 
     _saveData(target, source) {
         sessionStorage.setItem(target, JSON.stringify(source));
+    },
+
+    getCurrentUserVotes() {
+        $.getJSON('/current-user-votes', {username: users.currentUser}, resp => data_handler.currentUserVotes = resp)
     },
 
     getPlanetsPage(url, callback) {
