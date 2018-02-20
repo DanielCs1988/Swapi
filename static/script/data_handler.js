@@ -1,9 +1,6 @@
 data_handler = {
 
     init() {
-        if (users.currentUser) {
-            data_handler.getCurrentUserVotes();
-        }
         this._loadData(this._planetsKey, this._planetsData);
         this._loadData(this._residentsKey, this._residentsData);
     },
@@ -14,7 +11,7 @@ data_handler = {
     _residentsKey: 'residents',
     _residentsData : {},
 
-    currentUserVotes: {},
+    currentUserVotes: [],
 
     _loadData(source, target) {
         if (sessionStorage.getItem(source)) {
@@ -27,19 +24,29 @@ data_handler = {
     },
 
     getCurrentUserVotes() {
-        $.getJSON('/current-user-votes', {username: users.currentUser}, resp => data_handler.currentUserVotes = resp)
+        return $.getJSON('/current-user-votes', {username: users.currentUser}, function (userVotes) {
+            data_handler.currentUserVotes = userVotes;
+        })
     },
 
     getPlanetsPage(url, callback) {
-        if (this._planetsData.hasOwnProperty(url)) {
-            callback(data_handler._planetsData[url]);
+        if (!(users.currentUser) || data_handler.currentUserVotes.length) {
+            data_handler.getPlanets(url, callback);
         } else {
-            $.getJSON(url, function (planets) {
-                data_handler._planetsData[url] = planets;
-                data_handler._saveData(data_handler._planetsKey, data_handler._planetsData);
-                callback(planets);
-            });
+            data_handler.getCurrentUserVotes().then( () => data_handler.getPlanets(url, callback) );
         }
+    },
+
+    getPlanets(url, callback) {
+        if (data_handler._planetsData.hasOwnProperty(url)) {
+                callback(data_handler._planetsData[url]);
+            } else {
+                $.getJSON(url, function (planets) {
+                    data_handler._planetsData[url] = planets;
+                    data_handler._saveData(data_handler._planetsKey, data_handler._planetsData);
+                    callback(planets);
+                });
+            }
     },
 
     getResidents(planet, residentLinks, callback) {

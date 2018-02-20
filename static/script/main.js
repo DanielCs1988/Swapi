@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
-    users.init();
     data_handler.init();
+    users.init();
     dom.init();
     vote.init();
 

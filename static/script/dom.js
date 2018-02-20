@@ -1,17 +1,14 @@
 dom = {
 
+    firstPage: 'https://swapi.co/api/planets/?page=1',
+
     init() {
-        this.loadPlanetsPage('https://swapi.co/api/planets/?page=1');
         this.initPagination();
     },
 
     pageLoading: false,
     prevPlanet: null,
     nextPlanet: null,
-
-    loadPlanetsPage(page) {
-        data_handler.getPlanetsPage(page, this.renderPage);
-    },
 
     renderPage(planets) {
         let table = $('#planets-table').find('tbody');
@@ -30,8 +27,12 @@ dom = {
 
             let voteBtn = '';
             if (users.currentUser) {
-                voteBtn = `<td><button type="button" class="btn btn-success vote-btn" data-planet-name="${planet.name}" 
-                                       data-planet-id="${planet.url.slice(-2, -1)}">Vote</button></td>`;
+                voteBtn = `
+                    <td><button type="button" class="btn btn-secondary rounded-circle vote-btn"
+                            data-planet-name="${planet.name}"
+                            data-planet-id="${planet.url.replace('https://swapi.co/api/planets/', '').slice(0, -1)}">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button></td>`;
             }
 
             let planetHTML = `
@@ -47,14 +48,16 @@ dom = {
                 </tr>
             `;
             $(planetHTML).appendTo(table);
+
             if (planet.residents.length) {
                 dom.addListenerToResidentsBtn(planet.name, planet.residents);
             }
             if ( voteBtn && !(data_handler.currentUserVotes.includes(planet.name)) ) {
                 vote.addListenerToVoteBtn(planet.name);
-            } else {
-                $(`.vote-btn[data-planet-name="${planet.name}"]`).addClass('disabled');
+            } else if (voteBtn) {
+                $(`.vote-btn[data-planet-name="${planet.name}"]`).removeClass('btn-secondary').addClass('btn-success');
             }
+
         });
 
     },

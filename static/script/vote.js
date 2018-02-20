@@ -6,14 +6,16 @@ vote = {
 
     addListenerToVoteBtn(planet) {
         $(`.vote-btn[data-planet-name="${planet}"]`).click(function () {
+            let voteBtn = $(this);
             let voteData = {
                 username: users.currentUser,
                 planetName: planet,
-                planetId: $(this).data('planetId')
+                planetId: voteBtn.data('planetId')
             };
-            $(this).off('click').addClass('disabled');
             $.post('/vote', $.param(voteData), function (resp) {
                 if (resp) {
+                    voteBtn.off('click').removeClass('btn-secondary').addClass('btn-success');
+                    data_handler.currentUserVotes.push(planet);
                     console.log(resp);
                 }
             })

@@ -11,35 +11,34 @@ users = {
 
     queryCurrentUser() {
         $.get('/login-status', function (resp) {
-            resp ? users.showLoggedInStatus(resp) : users.showLoggedOutStatus();
+            resp ? users.handleLogin(resp) : users.handleLogout();
         })
     },
 
-    showLoggedInStatus(current_user) {
+    handleLogin(current_user) {
         this.currentUser = current_user;
         $('#login-trigger-btn').hide();
         $('#register-trigger-btn').hide();
         $('#user-greeting').text(`Welcome, ${current_user}!`).show();
         $('#logout-btn').show();
-        data_handler.getCurrentUserVotes();
-        $('#planets-table').find('tr').find('td:last').show();  // NEEDS FIXING
+        data_handler.getPlanetsPage(dom.firstPage, dom.renderPage);
     },
 
-    showLoggedOutStatus() {
+    handleLogout() {
         this.currentUser = '';
-        data_handler.currentUserVotes = null;
+        data_handler.currentUserVotes = [];
         $('#user-greeting').text('').hide();
         $('#logout-btn').hide();
         $('#login-trigger-btn').show();
         $('#register-trigger-btn').show();
-        $('#planets-table').find('tr').find('td:last').hide();
+        data_handler.getPlanetsPage(dom.firstPage, dom.renderPage);
     },
 
     addListenerToLoginBtn() {
         $('#login-btn').click(function () {
             $.post('/login', $('#login-form').serialize(), function (resp) {
                 if (resp) {
-                    users.showLoggedInStatus(resp);
+                    users.handleLogin(resp);
                     $('#login').modal('hide');
                     $('#login-form').find('input').val('');
                 } else {
@@ -51,7 +50,7 @@ users = {
 
     addListenerToLogoutBtn() {
         $('#logout-btn').click(function () {
-            $.get('/logout', () => users.showLoggedOutStatus())
+            $.get('/logout', () => users.handleLogout())
         })
     },
 
@@ -60,7 +59,7 @@ users = {
             if ($('#reg-password').val() === $('#reg-password-control').val()) {
                 $.post('/register', $('#register-form').serialize(), function (resp) {
                     if (resp) {
-                        users.showLoggedInStatus(resp);
+                        users.handleLogin(resp);
                         $('#register').modal('hide');
                         $('#register-form').find('input').val('');
                     } else {

@@ -5,3 +5,11 @@
 #login-trigger-btn, #register-trigger-btn, #logout-btn, #user-greeting {
     display: none;
 }
+
+body {
+    background: url('swbg.jpg') no-repeat fixed;
+}
+
+.vote-btn.btn-success {
+    pointer-events: none;
+}
