@@ -35,14 +35,15 @@ dom = {
                         </button></td>`;
             }
 
+            let population = planet.population.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             let planetHTML = `
                 <tr>
                     <td>${planet.name}</td>
-                    <td>${planet.diameter}</td>
+                    <td>${planet.diameter === 'unknown' ? planet.diameter : planet.diameter + ' km'}</td>
                     <td>${planet.climate}</td>
                     <td>${planet.terrain}</td>
-                    <td>${planet.surface_water}</td>
-                    <td>${planet.population}</td>
+                    <td>${planet.surface_water === 'unknown' ? planet.surface_water : planet.surface_water + '%'}</td>
+                    <td>${population === 'unknown' ? population : population + ' people'}</td>
                     <td>${residents}</td>
                     ${voteBtn}
                 </tr>
