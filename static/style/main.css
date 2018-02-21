@@ -2,7 +2,7 @@
     padding-top: 5rem;
 }
 
-#login-trigger-btn, #register-trigger-btn, #logout-btn, #user-greeting {
+.hidden-btn {
     display: none;
 }
 
@@ -12,10 +12,6 @@ body {
 
 .vote-btn.btn-success, #pagination-page-counter {
     pointer-events: none;
-}
-
-.hidden-icon {
-    display: none;
 }
 
 #tie-interceptor {

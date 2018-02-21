@@ -24,9 +24,7 @@ data_handler = {
     },
 
     getCurrentUserVotes() {
-        return $.getJSON('/current-user-votes', {username: users.currentUser}, function (userVotes) {
-            data_handler.currentUserVotes = userVotes;
-        })
+        return $.getJSON('/current-user-votes', userVotes => data_handler.currentUserVotes = userVotes);
     },
 
     getPlanetsPage(url, callback) {
@@ -40,20 +38,19 @@ data_handler = {
     getPlanets(url, callback) {
         $('body').css('cursor', 'progress');
         if (data_handler._planetsData.hasOwnProperty(url)) {
-                callback(data_handler._planetsData[url], url);
-            } else {
-                $.getJSON(url, function (planets) {
-                    data_handler._planetsData[url] = planets;
-                    data_handler._saveData(data_handler._planetsKey, data_handler._planetsData);
-                    callback(planets, url);
-                });
-            }
+            callback(data_handler._planetsData[url], url);
+        } else {
+            $.getJSON(url, function (planets) {
+                data_handler._planetsData[url] = planets;
+                data_handler._saveData(data_handler._planetsKey, data_handler._planetsData);
+                callback(planets, url);
+            });
+        }
     },
 
     getResidents(planet, residentLinks, callback) {
         if (this._residentsData.hasOwnProperty(planet)) {
             callback(planet, data_handler._residentsData[planet]);
-
         } else {
 
             let residents = [];

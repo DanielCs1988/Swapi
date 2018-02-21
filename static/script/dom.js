@@ -6,7 +6,6 @@ dom = {
         this.initPagination();
     },
 
-    pageLoading: false,
     prevPlanet: null,
     nextPlanet: null,
 
@@ -67,13 +66,8 @@ dom = {
 
     addListenerToResidentsBtn(planetName, residents) {
         $(`.rsd-btn[data-planet-name="${planetName}"]`).click(function () {
-            let modal = $('#residents');
-            modal.find('h5').text('Loading...');
-            modal.find('table').hide();
-            modal.find('tbody').empty();
-            modal.css('cursor', 'progress');
+            effects.prepareModal('#residents');
             effects.renderLoadingIndicator();
-            modal.modal();
             data_handler.getResidents(planetName, residents, dom.renderModal);
         })
     },
@@ -89,8 +83,8 @@ dom = {
             let residentHTML = `
                 <tr>
                     <td>${resident.name}</td>
-                    <td>${resident.height}</td>
-                    <td>${resident.mass}</td>
+                    <td>${resident.height === 'unknown' ? resident.height : resident.height + ' cm'}</td>
+                    <td>${resident.mass === 'unknown' ? resident.mass : resident.mass + ' kg'}</td>
                     <td>${resident.hair_color}</td>
                     <td>${resident.skin_color}</td>
                     <td>${resident.eye_color}</td>

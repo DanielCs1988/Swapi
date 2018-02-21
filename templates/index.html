@@ -33,7 +33,7 @@
 
     <div class="container">
 
-        <nav aria-label="Page navigation example">
+        <nav aria-label="page navigation">
             <ul class="pagination">
                 <li id="pagination-prev" class="page-item"><span class="page-link">Previous</span></li>
                 <li class="page-item"><span id="pagination-page-counter" class="page-link">1</span></li>
@@ -61,7 +61,7 @@
 
     <img id="tie-interceptor" src="{{ url_for('static', filename='style/tie.png') }}" alt="tie interceptor">
 
-    <audio src="" id="music" autoplay loop></audio>
+    <audio src="{{ url_for('static', filename='style/music.mp3') }}" id="music" autoplay loop></audio>
 
 </body>
 

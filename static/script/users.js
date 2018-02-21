@@ -5,6 +5,7 @@ users = {
         this.addListenerToLoginBtn();
         this.addListenerToLogoutBtn();
         this.addListenerToRegBtn();
+        this.addListenerToCloseAlerts();
     },
 
     currentUser: '',
@@ -17,6 +18,7 @@ users = {
 
     handleLogin(current_user) {
         this.currentUser = current_user;
+        $('.alert').hide();
         $('#login-trigger-btn').hide();
         $('#register-trigger-btn').hide();
         $('#user-greeting').text(`Welcome, ${current_user}!`).show();
@@ -27,6 +29,7 @@ users = {
     handleLogout() {
         this.currentUser = '';
         data_handler.currentUserVotes = [];
+        $('.alert').hide();
         $('#user-greeting').text('').hide();
         $('#logout-btn').hide();
         $('#login-trigger-btn').show();
@@ -42,7 +45,7 @@ users = {
                     $('#login').modal('hide');
                     $('#login-form').find('input').val('');
                 } else {
-                    console.log('Wrong credentials!')  // PLACEHOLDER
+                    $('#login-error-message').show().find('span').text('Invalid credentials!');
                 }
             })
         })
@@ -63,12 +66,18 @@ users = {
                         $('#register').modal('hide');
                         $('#register-form').find('input').val('');
                     } else {
-                        console.log('Username already taken!')  // PLACEHOLDER
+                        $('#reg-error-message').show().find('span').text('Username already taken!');
                     }
                 })
             } else {
-                console.log('Passwords dont match!')  // PLACEHOLDER
+                $('#reg-error-message').show().find('span').text('Passwords do not match!');
             }
+        })
+    },
+
+    addListenerToCloseAlerts() {
+        $('.alert').find('.close').click(function () {
+            $(this).parent().hide();
         })
     }
 

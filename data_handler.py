@@ -19,6 +19,9 @@ class DataBase:
         return bcrypt.checkpw(password.encode('utf-8'), user_entry['password'].encode('utf-8'))
 
     def register_user(self, username, password):
+        if len(username) < 5 or len(password) < 5:
+            return False
+
         self.cursor.execute("SELECT username FROM users WHERE username = %(usn)s", {'usn': username})
         if self.cursor.fetchone():
             return False

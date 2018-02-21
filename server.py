@@ -54,8 +54,10 @@ def register_vote():
 
 @app.route('/current-user-votes')
 def get_current_user_votes():
-    username = request.args['username']
-    return json.jsonify(db.query_user_votes(username))
+    current_user = session.get('current_user')
+    if not current_user:
+        return json.jsonify([])
+    return json.jsonify(db.query_user_votes(current_user))
 
 
 @app.route('/list-votes')
@@ -64,4 +66,4 @@ def list_votes():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

@@ -8,6 +8,15 @@ effects = {
     loadingAnimationTimer: null,
     tieAnimationTimer: null,
 
+    prepareModal(modalId) {
+        let modal = $(modalId);
+        modal.find('h5').text('Loading...');
+        modal.find('table').hide();
+        modal.find('tbody').empty();
+        modal.modal();
+        $('body').css('cursor', 'progress');
+    },
+
     renderLoadingIndicator() {
         let indicator = $('#loading-indicator');
         $('body').css('cursor', 'progress');
@@ -30,7 +39,7 @@ effects = {
         let btn = $("#play-btn");
         btn.click(function(){
             music.paused ? music.play() : music.pause();
-            btn.find('svg').toggleClass('hidden-icon');
+            btn.find('svg').toggle();
         })
     },
 
@@ -38,18 +47,15 @@ effects = {
         this.tieAnimationTimer = setInterval(this.releaseTieInterceptor, 5000);
         let tie = $('#tie-interceptor');
         tie.click(function () {
-            clearInterval(this.tieAnimationTimer);
-            tie.off('click');
-            tie.stop();
-            tie.attr('src', '/static/boom.png');
+            clearInterval(effects.tieAnimationTimer);
+            tie.off('click').stop().attr('src', '/static/boom.png');
             tie.animate({opacity: '0'}, 500, () => tie.remove());
         });
     },
 
     releaseTieInterceptor() {
         let tie = $('#tie-interceptor');
-        tie.show();
-        tie.animate({
+        tie.show().animate({
             left: '90%',
             top: `${effects.randInt(20, 80)}%`
         }, 3000, function () {

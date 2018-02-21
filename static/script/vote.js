@@ -16,7 +16,6 @@ vote = {
                 if (resp) {
                     voteBtn.off('click').removeClass('btn-secondary').addClass('btn-success');
                     data_handler.currentUserVotes.push(planet);
-                    console.log(resp);
                 }
             })
         })
@@ -24,12 +23,7 @@ vote = {
 
     addListenerToVoteStatBtn() {
         $('#vote-stat-btn').click(function () {
-            let modal = $('#vote-statistics');
-            modal.find('h5').text('Loading...');
-            modal.find('table').hide();
-            modal.find('tbody').empty();
-            $('body').css('cursor', 'progress');
-            modal.modal();
+            effects.prepareModal('#vote-statistics');
             data_handler.getVoteStatistics(vote.renderVoteStatistics);
         })
     },
