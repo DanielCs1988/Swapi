@@ -53,19 +53,14 @@ data_handler = {
             callback(planet, data_handler._residentsData[planet]);
         } else {
 
-            let residents = [];
             let calls = [];
-
             $.each(residentLinks, function (index, residentURL) {
-                let call = $.Deferred();
-                $.getJSON(residentURL, function (resident) {
-                    residents.push(resident);
-                    call.resolve();
-                });
-                calls.push(call);
+                calls.push($.getJSON(residentURL));
             });
 
-            $.when.apply(null, calls).then(function () {
+            $.when(...calls).done(function () {
+                let residents = [];
+                $.each(arguments, (i, resident) => residents.push(resident[0]));
                 data_handler._residentsData[planet] = residents;
                 data_handler._saveData(data_handler._residentsKey, data_handler._residentsData);
                 callback(planet, residents);
