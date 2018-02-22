@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import psycopg2.extras
+import urllib.parse
 
 
 class Connector:
@@ -22,6 +23,24 @@ class Connector:
             return cls(connection_string)
         else:
             raise KeyError('Some necessary environment variable(s) are not defined')
+
+    @classmethod
+    def connection_from_remote(cls):
+        urllib.parse.uses_netloc.append('postgres')
+        url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
+
+        user_name = url.username
+        password = url.password
+        host = url.hostname
+        port = url.port
+        database_name = url.path[1:]
+
+        if user_name and password and host and port and database_name:
+            connection_string = 'postgresql://{0}:{1}@{2}:{3}/{4}'.format(
+                user_name, password, host, port, database_name)
+            return cls(connection_string)
+        else:
+            raise KeyError('Could not fetch connection data!')
 
     @staticmethod
     def open_database(connection_string):
