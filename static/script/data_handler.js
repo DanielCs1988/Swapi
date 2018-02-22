@@ -60,7 +60,11 @@ data_handler = {
 
             $.when(...calls).done(function () {
                 let residents = [];
-                $.each(arguments, (i, resident) => residents.push(resident[0]));
+                if (calls.length > 1) {
+                    $.each(arguments, (i, resident) => residents.push(resident[0]));
+                } else {
+                    residents.push(arguments[0]);
+                }
                 data_handler._residentsData[planet] = residents;
                 data_handler._saveData(data_handler._residentsKey, data_handler._residentsData);
                 callback(planet, residents);
